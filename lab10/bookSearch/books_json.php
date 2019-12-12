@@ -29,15 +29,15 @@ if (!file_exists($BOOKS_FILE)) {
 	die("ERROR 500: Server error - Unable to read input file: $BOOKS_FILE");
 }
 
-header("Content-type: application/json");
+//header("Content-type: application/json");
 
-print "{\n  \"books\": [\n";
+//print "{\n  \"books\": [\n";
 
 // write a code to : 
 // 1. read the "books.txt"
 // 2. search all the books that matches the given category 
 // 3. generate the result in JSON data format 
-$chk = false;
+/*$chk = false;
 $lines = file($BOOKS_FILE);
 for ($i = 0; $i < count($lines); $i++) {
 	list($title, $author, $book_category, $year, $price) = explode("|", $lines[$i]);
@@ -54,5 +54,16 @@ for ($i = 0; $i < count($lines); $i++) {
 	}		
 }
 print "  ]\n}\n";
-
+*/
+$lines = file($BOOKS_FILE);
+$data=array();
+$data["books"] = array();
+for ($i = 0; $i < count($lines); $i++) {
+	list($title, $author, $book_category, $year, $price) = explode("|", $lines[$i]);
+	if ($book_category == $category) {
+			array_push($data["books"],array("category"=>"$category", "title"=>"$title", "author"=>"$author", "year"=>"$year", "price"=>"$price"));
+	}		
+}
+header("Content-type: application/json");
+print json_encode($data);
 ?>
